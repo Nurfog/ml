@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <!-- Formulario de registro -->
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+            <!-- CSRF token para seguridad -->
+            {% csrf_token %}
+
+            <!-- Cabecera de registro -->
+            <h1 style="text-align: center;"><span style="color: green;">Master Language</span></h1>
+            <h3>Registro</h3>
+            <hr>
+
+            <!-- Mostrar errores o mensajes de exito -->
+            {% if messages %}
+            <div class="alert alert-primary" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Ingreso promer nombre -->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombres</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter First name" name="first_name" required>
+            </div>
+
+            <!-- Ingreso apellidos -->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Apellidos</label>
+                <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Last name" required>
+            </div>
+
+            <!-- Ingresar nombre de usuario -->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Usuario</label>
+                <input type="text" class="form-control" name="username" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter email" required>
+            </div>
+
+            <!-- Ingreso contraseña -->
+            <div class="form-group">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input type="password" class="form-control" name="password" id="exampleInputPassword1"
+                    placeholder="Password" required>
+            </div>
+
+            <!-- Link a la pagina de login para usuarios que ya tengan una cuenta. -->
+            <p>Ya tengo una cuenta <a href="{% url 'cuentas' %}">Login</a></p>
+
+            <!-- Boton submit -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    {% endblock %}

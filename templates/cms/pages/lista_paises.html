@@ -1,0 +1,51 @@
+{% extends 'cms/master.html' %}
+{% block title %}Crear paises{% endblock %}
+{% block content %}   
+
+    <div class="container mt-5">
+        <h1 class="text-primary" style="text-align: center;">
+            <span >Lista de paises</span>
+        </h1>
+
+        <table class="table table-striped table-bordered table-hover mt-4 w-100 mx-auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Nacionalidad</th>
+                    <th>Moneda</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pais in paises %}
+                <tr>
+                    <td>{{ pais.nombre }}</td>
+                    <td>{{ pais.codigo }}</td>
+                    <td>{{ pais.nacionalidad }}</td>
+                    <td>{{ pais.moneda }}</td>                    
+                    <td>
+                        {% if pais.estado == True %} 
+                            Activo 
+                        {% elif pais.estado == False %}
+                            Inactivo 
+                        {% else %}
+                            {{ pais.estado }} 
+                        {% endif %}
+                    </td>
+                    <td class="col" style="width: 20%;">
+                        <a class="btn btn-warning py-0 px-2 mt-0" href="{% url 'editar_pais' id=pais.id %}"><i class="fas fa-edit"> Editar</i></a>
+                        &nbsp;
+                        <a class="btn btn-danger py-0 px-2 mt-0" href="{% url 'eliminar_pais' id=pais.id %}"><i class="fas fa-trash-alt"> Eliminar</i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary mt-2" href="{% url 'crear_pais' %}">Crear Nuevo Pais</a>
+    </div>
+    
+{% endblock %}
+

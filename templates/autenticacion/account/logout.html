@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin: 2%; text-align: center;">
+        <p><h3>Ya has cerrado sesión.</h3></p>
+        <p><a href="{% url 'cuentas' %}">Quieres iniciar sesión?</a></p>
+    </div>
+{% endblock %}

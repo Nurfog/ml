@@ -1,0 +1,15 @@
+{% extends 'cms/master.html' %}
+{% block title %}Crear paises{% endblock %}
+{% block content %}   
+
+    <div class="container mt-5">
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+            <h1 class="text-primary" style="text-align: center;"><span >Crear paises</span></h1>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Guardar<i class="fa fa-fw fa-save"></i></button>
+        </form>
+    </div>
+
+
+{% endblock %}
