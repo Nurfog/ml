@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import *
+from django.contrib.auth.models import User
+from .models import empresa, representante, pais, region, provincia, comuna, colegio, departamento, profile
 from .forms import *
 
 
 @login_required
 def dashboardcms(request):
-    return render(request, 'cms/master.html')
+    # leer informacion de profile con el id del usuario logueado
+    usuario = User.objects.all().get(id=request.user.id)
+    profile = profile.objects.all().get(user=usuario.id)
+    return render(request, 'cms/master.html', {'usuario': usuario, 'profile': profile})
 
 
 @login_required

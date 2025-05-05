@@ -1,5 +1,7 @@
 from django.contrib import admin
+from cms.models import empresa, representante, pais, region, provincia, comuna, colegio, departamento, profile
 import cms.models as models
+
 
 class EmpresaAdmin(admin.ModelAdmin):
     list_display = ('id', 'rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
@@ -85,3 +87,29 @@ class colegiosAdmin(admin.ModelAdmin):
 
 admin.site.register(models.colegio, colegiosAdmin)
 
+class departamentoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre', 'descripcion', 'estado')
+    search_fields = ('id', 'nombre', 'descripcion', 'estado')
+    list_filter = ('id', 'nombre', 'descripcion', 'estado')
+    ordering = ['id']
+    list_per_page = 10
+    list_editable = ('estado',)
+    list_display_links = ('id', 'nombre')
+    readonly_fields = ('id',)
+
+admin.site.register(models.departamento, departamentoAdmin)
+
+class profileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'about', 'trabajo', 'rut', 'id_pais', 'id_comuna',
+                     'direccion', 'telefono', 'foto', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli','estado')
+    search_fields = ('id', 'user', 'about', 'trabajo', 'rut', 'id_pais', 'id_comuna',
+                     'direccion', 'telefono', 'foto', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli','estado')
+    list_filter = ('id', 'user', 'about', 'trabajo', 'rut', 'id_pais', 'id_comuna',
+                     'direccion', 'telefono', 'foto', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli','estado')
+    ordering = ['id']
+    list_per_page = 10
+    list_editable = ('estado',)
+    list_display_links = ('id', 'user')
+    readonly_fields = ('id',)
+
+admin.site.register(models.profile, profileAdmin)
