@@ -19,4 +19,6 @@ urlpatterns = [
     path('cms/lista_comuna/', views.lista_comunas, name='lista_comuna'),
     path('cms/editar_comuna/<int:id>/', views.editar_comuna, name='editar_comuna'),
     path('cms/eliminar_comuna/<int:id>/', views.eliminar_comuna, name='eliminar_comuna'),
+    path('cms/perfil/', views.graba_perfil, name='perfil'),
+    #path('cms/editar_perfil/<int:id>/', views.editar_perfil, name='editar_perfil'),
 ]

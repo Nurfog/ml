@@ -7,10 +7,24 @@ from .forms import *
 
 @login_required
 def dashboardcms(request):
-    # leer informacion de profile con el id del usuario logueado
-    usuario = User.objects.all().get(id=request.user.id)
-    profile = profile.objects.all().get(user=usuario.id)
-    return render(request, 'cms/master.html', {'usuario': usuario, 'profile': profile})
+    if request.user.is_authenticated:
+        try:
+            profiles = profile.objects.get(user=request.user.id)
+            fecha = User.objects.get(id=request.user.id)
+        except profile.DoesNotExist:
+            profiles = None
+
+        context = {
+            'profiles': profiles,
+            'fecha': fecha,
+        }
+        return render(request, 'cms/pages/dashboard.html', context)
+    else:
+        # Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+        return redirect('index')    
+        
+
+       
 
 
 @login_required
@@ -248,6 +262,16 @@ def eliminar_colegio(request, id):
     return redirect('lista_colegio')
 
 
+@login_required
+def graba_perfil(request):
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')
+    else:
+        form = PerfilForm(instance=request.user.profile)
+    return render(request, 'cms/pages/perfil.html', {'form': form})
 
 
 

@@ -1,5 +1,5 @@
 from django import forms
-from cms.models import pais, region, provincia, comuna, empresa, representante, colegio
+from cms.models import pais, region, provincia, comuna, empresa, representante, colegio, departamento, profile
 from django import forms
 
 class PaisForm(forms.ModelForm):
@@ -190,4 +190,50 @@ class ColegioForm(forms.ModelForm):
         email = self.cleaned_data['email']
         return email.lower()
         
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model =  profile
+        fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'foto',
+                  'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli']        
+        widgets = {
+            'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'trabajo': forms.TextInput(attrs={'class': 'form-control'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombres': forms.TextInput(attrs={'class': 'form-control'}),
+            'ap_paterno': forms.TextInput(attrs={'class': 'form-control'}),
+            'ap_materno': forms.TextInput(attrs={'class': 'form-control'}),
+            'id_pais': forms.Select(attrs={'class': 'form-control'}),
+            'id_region': forms.Select(attrs={'class': 'form-control'}),
+            'id_comuna': forms.Select(attrs={'class': 'form-control'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'foto': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'socialx': forms.TextInput(attrs={'class': 'form-control'}),
+            'socialfb': forms.TextInput(attrs={'class': 'form-control'}),            
+            'socialig': forms.TextInput(attrs={'class': 'form-control'}),
+            'socialyt': forms.TextInput(attrs={'class': 'form-control'}),
+            'socialli': forms.TextInput(attrs={'class': 'form-control'})
+        }
+    def clean_rut(self):
+        rut = self.cleaned_data['rut']
+        return rut.upper()
+    
+    def clean_nombre(self):
+        nombre = self.cleaned_data['nombre']
+        return nombre.capitalize()
+    
+    def clean_apellido(self):
+        apellido = self.cleaned_data['apellido']
+        return apellido.capitalize()
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        return email.lower()
+    
+    def clean_telefono(self):
+        telefono = self.cleaned_data['telefono']
+        return telefono.upper()
+    
+    def clean_direccion(self):
+        direccion = self.cleaned_data['direccion']
+        return direccion.capitalize()
