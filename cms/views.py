@@ -21,11 +21,7 @@ def dashboardcms(request):
         return render(request, 'cms/pages/dashboard.html', context)
     else:
         # Si el usuario no está autenticado, redirigir a la página de inicio de sesión
-        return redirect('index')    
-        
-
-       
-
+        return redirect('cuentas')
 
 @login_required
 def crear_pais(request):
@@ -271,7 +267,28 @@ def graba_perfil(request):
             return redirect('perfil')
     else:
         form = PerfilForm(instance=request.user.profile)
-    return render(request, 'cms/pages/perfil.html', {'form': form})
+    return render(request, 'cms/pages/mostrar_perfil.html', {'form': form})
 
+@login_required
+def mostrar_perfil(request, username):
+    if request.user.is_authenticated:
+        try:
+            profiles = profile.objects.get(user=request.user.id)
+            usuario = User.objects.get(id=request.user.id)
+            regiones = region.objects.get(id=profiles.id_region_id)            
+            comunas = comuna.objects.get(id=profiles.id_comuna_id)
+            paises = pais.objects.get(id=profiles.id_pais_id)
+        except profile.DoesNotExist:
+            profiles = None
 
-
+        context = {
+            'profiles': profiles,
+            'usuario': usuario,
+            'regiones': regiones,
+            'comunas': comunas,
+            'paises': paises,
+        }
+        return render(request, 'cms/pages/mostrar_perfil.html', context)
+    else:
+        # Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+        return redirect('cuentas')
