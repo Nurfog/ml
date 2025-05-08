@@ -173,7 +173,7 @@
 							/>
 							<p>
 								{{ profiles.nombres }} {{ profiles.ap_paterno }}
-								<small>Miembro desde el {{ fecha.date_joined|date:"d" }} de {{ fecha.date_joined|date:"F" }} del {{ fecha.date_joined|date:"Y" }}</small>
+								<small>Miembro desde el {{ usuario.date_joined|date:"d" }} de {{ usuario.date_joined|date:"F" }} del {{ usuario.date_joined|date:"Y" }}</small>
 							</p>
 							</li>
 							<!--end::User Image-->
@@ -204,12 +204,12 @@
 			<!--begin::Footer-->
 			<footer class="app-footer">
 				<!--begin::To the end-->
-				<div class="float-end d-none d-sm-inline">Anything you want</div>
+				<div class="float-end d-none d-sm-inline">Everything you desire.</div>
 				<!--end::To the end-->
 				<!--begin::Copyright-->
 				<strong>
-				Copyright &copy; 2014-2024&nbsp;
-				<a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+				Copyright &copy; {% now 'Y' %}&nbsp;
+				<a href="https://norteamericano.cl" class="text-decoration-none">Master Language</a>.
 				</strong>
 				All rights reserved.
 				<!--end::Copyright-->

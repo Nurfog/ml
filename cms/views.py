@@ -9,14 +9,14 @@ from .forms import *
 def dashboardcms(request):
     if request.user.is_authenticated:
         try:
-            profiles = profile.objects.get(user=request.user.id)
-            fecha = User.objects.get(id=request.user.id)
+            usuario = User.objects.get(id=request.user.id)
+            profiles = profile.objects.get(user=usuario.id)            
         except profile.DoesNotExist:
             profiles = None
 
         context = {
             'profiles': profiles,
-            'fecha': fecha,
+            'usuario': usuario,
         }
         return render(request, 'cms/pages/dashboard.html', context)
     else:
@@ -25,6 +25,8 @@ def dashboardcms(request):
 
 @login_required
 def crear_pais(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = profile.objects.get(user=usuario.id)
     if request.method == 'POST':
         form = PaisForm(request.POST)
         if form.is_valid():
@@ -32,15 +34,31 @@ def crear_pais(request):
             return redirect('lista_paises')
     else: 
         form = PaisForm()
-    return render(request, 'cms/pages/crear_pais.html', {'form': form})
+    context = {
+        'form': form,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/crear_pais.html', context)
 
-
+@login_required
 def lista_paises(request):
-    paises = pais.objects.all()
-    return render(request, 'cms/pages/lista_paises.html', {'paises': paises})
+    if request.user.is_authenticated:        
+        usuario = User.objects.get(id=request.user.id)
+        profiles = profile.objects.get(user=usuario.id)
+        paises = pais.objects.all()
+        context = {
+            'profiles': profiles,
+            'usuario': usuario,
+            'paises': paises,
+            
+        }
+    return render(request, 'cms/pages/lista_paises.html', context)
 
 @login_required
 def editar_pais(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = profile.objects.get(user=usuario.id)
     paix = get_object_or_404(pais, id=id)
     if request.method == 'POST':
         form = PaisForm(request.POST, instance=paix)
@@ -50,7 +68,14 @@ def editar_pais(request, id):
             return redirect('lista_paises')
     else:
         form = PaisForm(instance=paix)
-    return render(request, 'cms/pages/editar_pais.html', {'form': form, 'pais': paix})
+
+    context = {
+        'form': form,
+        'pais': paix,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_pais.html', context)
 
 @login_required
 def eliminar_pais(request, id):
@@ -92,38 +117,6 @@ def eliminar_region(request, id):
     region.delete()
     return redirect('lista_region')
 
-@login_required
-def crear_provincia(request):
-    if request.method == 'POST':
-        form = ProvinciaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_provincia')
-    else: 
-        form = ProvinciaForm()
-    return render(request, 'cms/pages/crear_provincia.html', {'form': form})
-
-def lista_provincia(request):
-    provincias = provincia.objects.all()
-    return render(request, 'cms/pages/lista_provincia.html', {'provincias': provincias})
-
-@login_required
-def editar_provincia(request, id):
-    provincia = provincia.objects.get(id=id)
-    if request.method == 'POST':
-        form = ProvinciaForm(request.POST, instance=provincia)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_provincia')
-    else:
-        form = ProvinciaForm(instance=provincia)
-    return render(request, 'cms/pages/editar_provincia.html', {'form': form, 'provincia': provincia})
-
-@login_required
-def eliminar_provincia(request, id):
-    provincia = provincia.objects.get(id=id)
-    provincia.delete()
-    return redirect('lista_provincia')
 
 @login_required
 def crear_comuna(request):
@@ -292,3 +285,15 @@ def mostrar_perfil(request, username):
     else:
         # Si el usuario no está autenticado, redirigir a la página de inicio de sesión
         return redirect('cuentas')
+    
+@login_required
+def editar_perfil(request, id):
+    perfil = profile.objects.get(id=id)
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboardcms')
+    else:
+        form = PerfilForm(instance=perfil)
+    return render(request, 'cms/pages/editar_perfil.html', {'form': form, 'perfil': perfil})

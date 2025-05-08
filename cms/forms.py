@@ -193,7 +193,7 @@ class ColegioForm(forms.ModelForm):
 class PerfilForm(forms.ModelForm):
     class Meta:
         model =  profile
-        fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'foto',
+        fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'celular', 'foto',
                   'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli']        
         widgets = {
             'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Escribe algo sobre ti...'}),
@@ -206,7 +206,8 @@ class PerfilForm(forms.ModelForm):
             'id_region': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecciona una región'}),
             'id_comuna': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecciona una comuna'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56912345678'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56212345678'}),
+            'celular': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56912345678'}),
             'foto': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'placeholder': 'Selecciona una foto de perfil'}),
             'socialx': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'URL de tu perfil de X'}),
             'socialfb': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'URL de tu perfil de Facebook'}),            

@@ -51,18 +51,6 @@ class regionesAdmin(admin.ModelAdmin):
 
 admin.site.register(models.region, regionesAdmin)
 
-class provinciasAdmin(admin.ModelAdmin):
-    list_display = ('id', 'region', 'codigo', 'nombre', 'estado')
-    search_fields = ('id', 'region', 'codigo', 'nombre', 'estado')
-    list_filter = ('id', 'region', 'codigo', 'nombre', 'estado')
-    ordering = ['id']
-    list_per_page = 10
-    list_editable = ('estado',)
-    list_display_links = ('id', 'region')
-    readonly_fields = ('id',)
-
-admin.site.register(models.provincia, provinciasAdmin)
-
 class comunasAdmin(admin.ModelAdmin):
     list_display = ('id', 'provincia', 'codigo', 'nombre', 'estado')
     search_fields = ('id', 'provincia', 'codigo', 'nombre', 'estado')

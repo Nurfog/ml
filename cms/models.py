@@ -234,12 +234,15 @@ class profile(models.Model):
     id_comuna = models.ForeignKey(comuna, on_delete=models.CASCADE, related_name='comuna_profile', blank=True, null=True)
     direccion = models.CharField(max_length=150, blank=True, null=True)
     telefono = models.CharField(max_length=150, blank=True, null=True)
+    celular = models.CharField(max_length=150, blank=True, null=True)
+    email = models.CharField(max_length=150, blank=True, null=True)
     foto = models.ImageField(upload_to='cms/images/profiles/fotos')
     socialx = models.CharField(max_length=200, blank=True, null=True)
     socialfb = models.CharField(max_length=200, blank=True, null=True)    
     socialig = models.CharField(max_length=200, blank=True, null=True)
     socialyt = models.CharField(max_length=200, blank=True, null=True)
     socialli = models.CharField(max_length=200, blank=True, null=True)
+    socialgit = models.CharField(max_length=200, blank=True, null=True)
     estado = models.BooleanField(default=True)
 
     def __str__(self):
