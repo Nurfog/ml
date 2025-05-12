@@ -7,6 +7,7 @@ class pais(models.Model):
     nombre = models.CharField(max_length=150)
     nacionalidad = models.CharField(max_length=150)
     moneda = models.CharField(max_length=150)
+    codigo_telefono = models.CharField(max_length=150)
     estado = models.BooleanField(default=True)
 
     def __str__(self):

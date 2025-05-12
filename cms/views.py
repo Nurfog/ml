@@ -26,7 +26,7 @@ def dashboardcms(request):
 @login_required
 def crear_pais(request):
     usuario = User.objects.get(id=request.user.id)
-    profiles = profile.objects.get(user=usuario.id)
+    profiles = profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = PaisForm(request.POST)
         if form.is_valid():
@@ -45,8 +45,11 @@ def crear_pais(request):
 def lista_paises(request):
     if request.user.is_authenticated:        
         usuario = User.objects.get(id=request.user.id)
-        profiles = profile.objects.get(user=usuario.id)
+        profiles = profile.objects.get(usuario=usuario.id)        
         paises = pais.objects.all()
+        if paises is None:
+            paises = None
+        
         context = {
             'profiles': profiles,
             'usuario': usuario,
@@ -58,7 +61,7 @@ def lista_paises(request):
 @login_required
 def editar_pais(request, id):
     usuario = User.objects.get(id=request.user.id)
-    profiles = profile.objects.get(user=usuario.id)
+    profiles = profile.objects.get(usuario=usuario.id)
     paix = get_object_or_404(pais, id=id)
     if request.method == 'POST':
         form = PaisForm(request.POST, instance=paix)
@@ -85,6 +88,11 @@ def eliminar_pais(request, id):
 
 @login_required
 def crear_region(request):
+    usuarios = User.objects.get(id=request.user.id)
+    profiles = profile.objects.get(usuario=usuarios.id)
+    paises = pais.objects.all()
+    if paises is None:
+        paises = None
     if request.method == 'POST':
         form = RegionForm(request.POST)
         if form.is_valid():
@@ -92,7 +100,14 @@ def crear_region(request):
             return redirect('lista_region')
     else: 
         form = RegionForm()
-    return render(request, 'cms/pages/crear_region.html', {'form': form})
+    context = {
+        'form': form,
+        'usuario': usuarios,
+        'profiles': profiles,
+        'paises': paises,
+        
+    }
+    return render(request, 'cms/pages/crear_region.html', context)
 
 
 def lista_region(request):

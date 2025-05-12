@@ -1,0 +1,50 @@
+{% extends 'cms/master.html' %}
+{% block title %}Listar Regiones{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="app-content-header mt-2">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-sm-6"><h3 class="mb-0">Listar regiones</h3></div>							
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+
+        <table class="table table-striped table-bordered table-hover mt-4 w-100 mx-auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Pais</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for region in regiones %}                
+                <tr>
+                    <td>{{ region.pais.nombre }}</td>
+                    <td>{{ region.nombre }}</td>
+                    <td>
+                        {% if region.estado == True %} 
+                            Activo 
+                        {% else %}
+                            Inactivo                        
+                        {% endif %}
+                    </td>                    
+                    <td class="col" style="width: 20%;">
+                        <a class="btn btn-warning py-0 px-2 mt-0" href="{% url 'editar_region' id=region.id %}"><i class="fas fa-edit"> Editar</i></a>
+                        &nbsp;
+                        <a class="btn btn-danger py-0 px-2 mt-0" href="{% url 'eliminar_region' id=region.id %}"><i class="fas fa-trash-alt"> Eliminar</i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -5,12 +5,13 @@ from django import forms
 class PaisForm(forms.ModelForm):
     class Meta:
         model = pais
-        fields = ['codigo', 'nombre', 'nacionalidad', 'moneda']
+        fields = ['codigo', 'nombre', 'nacionalidad', 'moneda', 'codigo_telefono']
         widgets = {
-            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'nacionalidad': forms.TextInput(attrs={'class': 'form-control'}),
-            'moneda': forms.TextInput(attrs={'class': 'form-control'}),
+            'codigo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: CL'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Chile'}),
+            'nacionalidad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Chilena'}),
+            'moneda': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: CLP'}),
+            'codigo_telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: +56'}),
         }
 
     def clean_codigo(self):

@@ -68,8 +68,33 @@
                             </li>                            
                         </ul>
                     </li>
-                </ul>                
+                </ul>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link ms-2">
+                            
+                                <i class="nav-icon bi bi-flag-fill"></i>
+                                <p>Regiones</p>
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'lista_region' %}" class="nav-link ms-4">
+                                    <i class="nav-icon bi bi-list"></i>
+                                    <p>Listar Regiones</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'crear_region' %}" class="nav-link ms-4">
+                                    <i class="nav-icon bi bi-plus-circle"></i>
+                                    <p>Agregar</p>
+                                </a>
+                            </li>                            
+                        </ul>
+                    </li>                  
             </li>
+            
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
