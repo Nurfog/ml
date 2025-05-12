@@ -10,7 +10,7 @@ def dashboardcms(request):
     if request.user.is_authenticated:
         try:
             usuario = User.objects.get(id=request.user.id)
-            profiles = profile.objects.get(user=usuario.id)            
+            profiles = profile.objects.get(usuario=usuario.id)            
         except profile.DoesNotExist:
             profiles = None
 
@@ -266,13 +266,25 @@ def graba_perfil(request):
 def mostrar_perfil(request, username):
     if request.user.is_authenticated:
         try:
-            profiles = profile.objects.get(user=request.user.id)
+            profiles = profile.objects.get(usuario=request.user.id)
             usuario = User.objects.get(id=request.user.id)
-            regiones = region.objects.get(id=profiles.id_region_id)            
-            comunas = comuna.objects.get(id=profiles.id_comuna_id)
-            paises = pais.objects.get(id=profiles.id_pais_id)
+            if profiles.id_region_id is None:
+                regiones = None
+            else:
+                regiones = region.objects.get(id=profiles.id_region_id)
+            if profiles.id_comuna_id is None:
+                comunas = None
+            else:
+                comunas = comuna.objects.get(id=profiles.id_comuna_id)
+
+            if profiles.id_pais_id is None:
+                paises = None
+            else:
+                paises = pais.objects.get(id=profiles.id_pais_id)
         except profile.DoesNotExist:
-            profiles = None
+            profiles.id_region_id = None
+            profiles.id_comuna_id = None
+            profiles.id_pais_id = None
 
         context = {
             'profiles': profiles,

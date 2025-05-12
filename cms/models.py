@@ -222,7 +222,7 @@ class departamento(models.Model):
 
 class profile(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(null=True)
     trabajo = models.CharField(max_length=150, blank=True, null=True)
     rut = models.CharField(max_length=150, blank=True, null=True)
@@ -236,14 +236,14 @@ class profile(models.Model):
     telefono = models.CharField(max_length=150, blank=True, null=True)
     celular = models.CharField(max_length=150, blank=True, null=True)
     email = models.CharField(max_length=150, blank=True, null=True)
-    foto = models.ImageField(upload_to='cms/images/profiles/fotos')
+    foto = models.ImageField(upload_to='cms/images/profiles/fotos',blank=True, null=True)
     socialx = models.CharField(max_length=200, blank=True, null=True)
     socialfb = models.CharField(max_length=200, blank=True, null=True)    
     socialig = models.CharField(max_length=200, blank=True, null=True)
     socialyt = models.CharField(max_length=200, blank=True, null=True)
     socialli = models.CharField(max_length=200, blank=True, null=True)
     socialgit = models.CharField(max_length=200, blank=True, null=True)
-    estado = models.BooleanField(default=True)
+    estado = models.BooleanField(default=1)
 
     def __str__(self):
         return self.user.username
