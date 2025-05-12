@@ -38,7 +38,7 @@
             </li>            
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-box-seam-fill"></i>
+                    <i class="nav-icon bi bi-gear"></i>
                     <p>
                         Administracion
                         <i class="nav-arrow bi bi-chevron-right"></i>
@@ -46,34 +46,29 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="bi bi-flag-fill"></i>
-                        <p>Paises</p>
-                        <i class="nav-arrow bi bi-chevron-right"></i>
+                        <a href="#" class="nav-link ms-2">
+                            
+                                <i class="nav-icon bi bi-flag-fill"></i>
+                                <p>Paises</p>
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{% url 'lista_paises' %}" class="nav-link">
+                                <a href="{% url 'lista_paises' %}" class="nav-link ms-4">
                                     <i class="nav-icon bi bi-list"></i>
                                     <p>Listar Paises</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'crear_pais' %}" class="nav-link">
-                                    <i class="bi bi-plus-circle"></i>
-                                    <p>Crear</p>
+                                <a href="{% url 'crear_pais' %}" class="nav-link ms-4">
+                                    <i class="nav-icon bi bi-plus-circle"></i>
+                                    <p>Agregar</p>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./widgets/cards.html" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>Cards</p>
-                                </a>
-                            </li>
+                            </li>                            
                         </ul>
                     </li>
-                </ul>
-                
+                </ul>                
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">

@@ -1,5 +1,5 @@
 from django import forms
-from cms.models import pais, region, provincia, comuna, empresa, representante, colegio, departamento, profile
+from cms.models import pais, region, comuna, empresa, representante, colegio, departamento, profile
 from django import forms
 
 class PaisForm(forms.ModelForm):
@@ -46,24 +46,7 @@ class RegionForm(forms.ModelForm):
     def clean_nombre(self):
         nombre = self.cleaned_data['nombre']
         return nombre.capitalize()
-    
-class ProvinciaForm(forms.ModelForm):
-    class Meta:
-        model =  provincia
-        fields = ['region','codigo', 'nombre']
-        widgets = {
-            'region': forms.Select(attrs={'class': 'form-control'}),
-            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-    def clean_codigo(self):
-        codigo = self.cleaned_data['codigo']
-        return codigo.upper()
-    
-    def clean_nombre(self):
-        nombre = self.cleaned_data['nombre']
-        return nombre.capitalize()
-    
+        
 
 class ComunaForm(forms.ModelForm):
     class Meta:
