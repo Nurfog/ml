@@ -8,7 +8,12 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row">
-                    <div class="col-sm-6"><h3 class="mb-0">Listar regiones</h3></div>							
+                    <div class="col-sm-6"><h3 class="mb-0">Listar regiones</h3></div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'crear_region' %}" class="btn btn-primary">Crear Región</a>
+                        </div>
+                    </div>
                 </div>
                 <!--end::Row-->
             </div>
@@ -37,9 +42,9 @@
                         {% endif %}
                     </td>                    
                     <td class="col" style="width: 20%;">
-                        <a class="btn btn-warning py-0 px-2 mt-0" href="{% url 'editar_region' id=region.id %}"><i class="fas fa-edit"> Editar</i></a>
+                        <a class="btn btn-warning py-0 px-2 mt-0" href="{% url 'editar_region' idreg=region.id %}"><i class="fas fa-edit"> Editar</i></a>
                         &nbsp;
-                        <a class="btn btn-danger py-0 px-2 mt-0" href="{% url 'eliminar_region' id=region.id %}"><i class="fas fa-trash-alt"> Eliminar</i></a>
+                        <a class="btn btn-danger py-0 px-2 mt-0" href="{% url 'eliminar_region' idreg=region.id %}"><i class="fas fa-trash-alt"> Eliminar</i></a>
                     </td>
                 </tr>
                 {% endfor %}

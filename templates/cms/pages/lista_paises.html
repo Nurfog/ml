@@ -7,9 +7,14 @@
             <!--begin::Container-->
             <div class="container-fluid">
                 <!--begin::Row-->
-                
-                    <div class="col-sm-6"><h3 class="mb-0">Listar países</h3></div>							
-                
+                <div class="row">
+                    <div class="col-sm-6"><h3 class="mb-0">Listar países</h3></div>	
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'crear_pais' %}" class="btn btn-primary">Crear País</a>
+                        </div>
+                    </div>
+                </div>
                 <!--end::Row-->
             </div>
             <!--end::Container-->
@@ -51,8 +56,6 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        <a class="btn btn-primary mt-2" href="{% url 'crear_pais' %}">Crear Nuevo Pais</a>
     </div>
     
 {% endblock %}

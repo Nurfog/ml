@@ -1,5 +1,5 @@
 from django.contrib import admin
-from cms.models import empresa, representante, pais, region, provincia, comuna, colegio, departamento, profile
+from cms.models import Empresa, Representante, Pais, Region, Comuna, Colegio, Departamento, Profile
 import cms.models as models
 
 
@@ -13,7 +13,7 @@ class EmpresaAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'razonsocial')
     readonly_fields = ('id',)
 
-admin.site.register(models.empresa, EmpresaAdmin)
+admin.site.register(models.Empresa, EmpresaAdmin)
 
 class RepresentanteAdmin(admin.ModelAdmin):
     list_display = ('id', 'empresa', 'rut', 'nombre', 'apellido', 'email', 'telefono', 'estado')
@@ -25,7 +25,7 @@ class RepresentanteAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'empresa')
     readonly_fields = ('id',)
 
-admin.site.register(models.representante, RepresentanteAdmin)
+admin.site.register(models.Representante, RepresentanteAdmin)
 
 class paisesAdmin(admin.ModelAdmin):
     list_display = ('id', 'codigo', 'nombre', 'estado')
@@ -37,7 +37,7 @@ class paisesAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'codigo')
     readonly_fields = ('id',)
 
-admin.site.register(models.pais, paisesAdmin)
+admin.site.register(models.Pais, paisesAdmin)
 
 class regionesAdmin(admin.ModelAdmin):
     list_display = ('id', 'codigo', 'nombre', 'estado')
@@ -49,19 +49,19 @@ class regionesAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'codigo')
     readonly_fields = ('id',)
 
-admin.site.register(models.region, regionesAdmin)
+admin.site.register(models.Region, regionesAdmin)
 
 class comunasAdmin(admin.ModelAdmin):
-    list_display = ('id', 'provincia', 'codigo', 'nombre', 'estado')
-    search_fields = ('id', 'provincia', 'codigo', 'nombre', 'estado')
-    list_filter = ('id', 'provincia', 'codigo', 'nombre', 'estado')
+    list_display = ('id', 'pais', 'region', 'codigo', 'nombre', 'estado')
+    search_fields = ('id', 'pais', 'region', 'codigo', 'nombre', 'estado')
+    list_filter = ('id',  'pais', 'region', 'nombre', 'estado')
     ordering = ['id']
     list_per_page = 10
     list_editable = ('estado',)
-    list_display_links = ('id', 'provincia')
+    list_display_links = ('id', 'region')
     readonly_fields = ('id',)
 
-admin.site.register(models.comuna, comunasAdmin)
+admin.site.register(models.Comuna, comunasAdmin)
 
 class colegiosAdmin(admin.ModelAdmin):
     list_display = ('id', 'razon_social', 'comuna', 'direccion', 'telefono', 'email', 'estado')
@@ -73,7 +73,7 @@ class colegiosAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'razon_social')
     readonly_fields = ('id',)
 
-admin.site.register(models.colegio, colegiosAdmin)
+admin.site.register(models.Colegio, colegiosAdmin)
 
 class departamentoAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre', 'descripcion', 'estado')
@@ -85,7 +85,7 @@ class departamentoAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'nombre')
     readonly_fields = ('id',)
 
-admin.site.register(models.departamento, departamentoAdmin)
+admin.site.register(models.Departamento, departamentoAdmin)
 
 class profileAdmin(admin.ModelAdmin):
     list_display = ('id', 'usuario', 'about', 'trabajo', 'rut', 'id_pais', 'id_comuna',
@@ -100,4 +100,4 @@ class profileAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'usuario')
     readonly_fields = ('id',)
 
-admin.site.register(models.profile, profileAdmin)
+admin.site.register(models.Profile, profileAdmin)

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import empresa, representante, pais, region, provincia, comuna, colegio, departamento, profile
+from .models import *
 from .forms import *
+from django.http import JsonResponse
 
 
 @login_required
@@ -10,8 +11,8 @@ def dashboardcms(request):
     if request.user.is_authenticated:
         try:
             usuario = User.objects.get(id=request.user.id)
-            profiles = profile.objects.get(usuario=usuario.id)            
-        except profile.DoesNotExist:
+            profiles = Profile.objects.get(usuario=usuario.id)            
+        except Profile.DoesNotExist:
             profiles = None
 
         context = {
@@ -26,7 +27,7 @@ def dashboardcms(request):
 @login_required
 def crear_pais(request):
     usuario = User.objects.get(id=request.user.id)
-    profiles = profile.objects.get(usuario=usuario.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = PaisForm(request.POST)
         if form.is_valid():
@@ -45,8 +46,8 @@ def crear_pais(request):
 def lista_paises(request):
     if request.user.is_authenticated:        
         usuario = User.objects.get(id=request.user.id)
-        profiles = profile.objects.get(usuario=usuario.id)        
-        paises = pais.objects.all()
+        profiles = Profile.objects.get(usuario=usuario.id)        
+        paises = Pais.objects.all()
         if paises is None:
             paises = None
         
@@ -61,8 +62,8 @@ def lista_paises(request):
 @login_required
 def editar_pais(request, id):
     usuario = User.objects.get(id=request.user.id)
-    profiles = profile.objects.get(usuario=usuario.id)
-    paix = get_object_or_404(pais, id=id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    paix = get_object_or_404(Pais, id=id)
     if request.method == 'POST':
         form = PaisForm(request.POST, instance=paix)
         if form.is_valid():
@@ -82,15 +83,15 @@ def editar_pais(request, id):
 
 @login_required
 def eliminar_pais(request, id):
-    paix = pais.objects.get(id=id)
+    paix = Pais.objects.get(id=id)
     paix.delete()
     return redirect('lista_paises')
 
 @login_required
 def crear_region(request):
-    usuarios = User.objects.get(id=request.user.id)
-    profiles = profile.objects.get(usuario=usuarios.id)
-    paises = pais.objects.all()
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    paises = Pais.objects.all()
     if paises is None:
         paises = None
     if request.method == 'POST':
@@ -102,7 +103,7 @@ def crear_region(request):
         form = RegionForm()
     context = {
         'form': form,
-        'usuario': usuarios,
+        'usuario': usuario,
         'profiles': profiles,
         'paises': paises,
         
@@ -111,63 +112,118 @@ def crear_region(request):
 
 
 def lista_region(request):
-    regiones = region.objects.all()
-    return render(request, 'cms/pages/lista_region.html', {'regiones': regiones})
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    regiones = Region.objects.all()
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+        'regiones': regiones,
+    }
+    return render(request, 'cms/pages/lista_region.html', context)
 
 @login_required
 def editar_region(request, id):
-    region = region.objects.get(id=id)
+    usuarios = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuarios.id)    
+    regiones = get_object_or_404(Region, id=id)
     if request.method == 'POST':
-        form = RegionForm(request.POST, instance=region)
+        form = RegionForm(request.POST, instance=regiones)
         if form.is_valid():
             form.save()
             return redirect('lista_region')
     else:
-        form = RegionForm(instance=region)
-    return render(request, 'cms/pages/editar_region.html', {'form': form, 'region': region})
+        form = RegionForm(instance=regiones)
+    context = {
+        'form': form,
+        'regiones': regiones,
+        'usuario': usuarios,
+        'profiles': profiles,
+    }
+    return render(request, 'cms/pages/editar_region.html', context)
 
 @login_required
 def eliminar_region(request, id):
-    region = region.objects.get(id=id)
+    region = Region.objects.get(id=id)
     region.delete()
     return redirect('lista_region')
 
-
 @login_required
 def crear_comuna(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
-        form = ComunaForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formulario = ComunaForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
             return redirect('lista_comuna')
-    else: 
-        form = ComunaForm()
-    return render(request, 'cms/pages/crear_comuna.html', {'form': form})
+        else:
+            context = {
+                'formulario': formulario,  # <--- ¡Asegúrate de pasar el formulario aquí!
+                'profiles': profiles,
+                'usuario': usuario,
+            }
+            return render(request, 'cms/pages/crear_comuna.html', context)
+    else:
+        formulario = ComunaForm()
+        context = {
+            'formulario': formulario,
+            'profiles': profiles,
+            'usuario': usuario,
+        }
+        return render(request, 'cms/pages/crear_comuna.html', context)
 
+
+@login_required
 def lista_comunas(request):
-    comunas = comuna.objects.all()
-    return render(request, 'cms/pages/lista_comuna.html', {'comunas': comunas})
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    regiones = Region.objects.all()
+    comunas = Comuna.objects.all()
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+        'regiones': regiones,
+        'comunas': comunas,
+    }
+    return render(request, 'cms/pages/lista_comuna.html', context)
 
 @login_required
 def editar_comuna(request, id):
-    comuna = comuna.objects.get(id=id)
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    comuna = Comuna.objects.get(id=id)
     if request.method == 'POST':
-        form = ComunaForm(request.POST, instance=comuna)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_comuna')
+        formulario = ComunaForm(request.POST, instance=comuna)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('lista_comuna') # Reemplaza 'lista_comunas' con tu URL de lista
     else:
-        form = ComunaForm(instance=comuna)
-    return render(request, 'cms/pages/editar_comuna.html', {'form': form, 'comuna': comuna})
+        formulario = ComunaForm(instance=comuna)
+    context = {
+        'formulario': formulario,
+        'comuna': comuna,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_comuna.html', context)
 
 @login_required
 def eliminar_comuna(request, id):
-    comuna = comuna.objects.get(id=id)
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    comuna = Comuna.objects.get(id=id)
     comuna.delete()
-    return redirect('lista_comuna')
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return redirect('cms/pages/lista_comuna',context)
 
 @login_required
 def crear_empresa(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = EmpresaForm(request.POST)
         if form.is_valid():
@@ -175,14 +231,29 @@ def crear_empresa(request):
             return redirect('lista_empresa')
     else: 
         form = EmpresaForm()
-    return render(request, 'cms/pages/crear_empresa.html', {'form': form})
+    context = {
+        'form': form,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/crear_empresa.html',context)
 
+@login_required
 def lista_empresa(request):
-    empresas = empresa.objects.all()
-    return render(request, 'cms/pages/lista_empresa.html', {'empresas': empresas})
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    empresas = Empresa.objects.all()
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+        'empresas': empresas,
+    }
+    return render(request, 'cms/pages/lista_empresa.html', context)
 
 @login_required
 def editar_empresa(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     empresa = empresa.objects.get(id=id)
     if request.method == 'POST':
         form = EmpresaForm(request.POST, instance=empresa)
@@ -191,16 +262,30 @@ def editar_empresa(request, id):
             return redirect('lista_empresa')
     else:
         form = EmpresaForm(instance=empresa)
-    return render(request, 'cms/pages/editar_empresa.html', {'form': form, 'empresa': empresa})
+    context = {
+        'form': form,
+        'empresa': empresa,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_empresa.html', context)
 
 @login_required
 def eliminar_empresa(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     empresa = empresa.objects.get(id=id)
     empresa.delete()
-    return redirect('lista_empresa')
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return redirect('lista_empresa',context)
 
 @login_required
 def crear_representante(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = RepresentanteForm(request.POST)
         if form.is_valid():
@@ -208,14 +293,29 @@ def crear_representante(request):
             return redirect('lista_representante')
     else: 
         form = RepresentanteForm()
-    return render(request, 'cms/pages/crear_representante.html', {'form': form})
+    context = {
+        'form': form,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/crear_representante.html', context)
 
+@login_required
 def lista_representante(request):
-    representantes = representante.objects.all()
-    return render(request, 'cms/pages/lista_representante.html', {'representantes': representantes})    
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    representantes = Representante.objects.all()
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+        'representantes': representantes,
+    }
+    return render(request, 'cms/pages/lista_representante.html', context)    
 
 @login_required
 def editar_representante(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     representante = representante.objects.get(id=id)
     if request.method == 'POST':
         form = RepresentanteForm(request.POST, instance=representante)
@@ -224,16 +324,30 @@ def editar_representante(request, id):
             return redirect('lista_representante')
     else:
         form = RepresentanteForm(instance=representante)
-    return render(request, 'cms/pages/editar_representante.html', {'form': form, 'representante': representante})
+    context = {
+        'form': form,
+        'representante': representante,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_representante.html', context)
 
 @login_required
 def eliminar_representante(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     representante = representante.objects.get(id=id)
     representante.delete()
-    return redirect('lista_representante')
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return redirect('lista_representante', context)
 
 @login_required
 def crear_colegio(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = ColegioForm(request.POST)
         if form.is_valid():
@@ -241,14 +355,29 @@ def crear_colegio(request):
             return redirect('lista_colegio')
     else: 
         form = ColegioForm()
-    return render(request, 'cms/pages/crear_colegio.html', {'form': form})
+    context = {
+        'form': form,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/crear_colegio.html', context)
 
+@login_required
 def lista_colegio(request):
-    colegios = colegio.objects.all()
-    return render(request, 'cms/pages/lista_colegio.html', {'colegios': colegios})
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    colegios = Colegio.objects.all()
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+        'colegios': colegios,
+    }
+    return render(request, 'cms/pages/lista_colegio.html', context)
 
 @login_required
 def editar_colegio(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     colegio = colegio.objects.get(id=id)
     if request.method == 'POST':
         form = ColegioForm(request.POST, instance=colegio)
@@ -257,17 +386,31 @@ def editar_colegio(request, id):
             return redirect('lista_colegio')
     else:
         form = ColegioForm(instance=colegio)
-    return render(request, 'cms/pages/editar_colegio.html', {'form': form, 'colegio': colegio})
+    context = {
+        'form': form,
+        'colegio': colegio,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_colegio.html', context)
 
 @login_required
 def eliminar_colegio(request, id):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     colegio = colegio.objects.get(id=id)
     colegio.delete()
-    return redirect('lista_colegio')
+    context = {
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return redirect('lista_colegio', context)
 
 
 @login_required
 def graba_perfil(request):
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.method == 'POST':
         form = PerfilForm(request.POST, instance=request.user.profile)
         if form.is_valid():
@@ -275,28 +418,35 @@ def graba_perfil(request):
             return redirect('perfil')
     else:
         form = PerfilForm(instance=request.user.profile)
-    return render(request, 'cms/pages/mostrar_perfil.html', {'form': form})
+    context = {
+        'form': form,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/mostrar_perfil.html', context)
 
 @login_required
 def mostrar_perfil(request, username):
+    usuario = User.objects.get(username=username)
+    profiles = Profile.objects.get(usuario=usuario.id)
     if request.user.is_authenticated:
         try:
-            profiles = profile.objects.get(usuario=request.user.id)
+            profiles = Profile.objects.get(usuario=request.user.id)
             usuario = User.objects.get(id=request.user.id)
             if profiles.id_region_id is None:
                 regiones = None
             else:
-                regiones = region.objects.get(id=profiles.id_region_id)
+                regiones = Region.objects.get(id=profiles.id_region_id)
             if profiles.id_comuna_id is None:
                 comunas = None
             else:
-                comunas = comuna.objects.get(id=profiles.id_comuna_id)
+                comunas = Comuna.objects.get(id=profiles.id_comuna_id)
 
             if profiles.id_pais_id is None:
                 paises = None
             else:
-                paises = pais.objects.get(id=profiles.id_pais_id)
-        except profile.DoesNotExist:
+                paises = Pais.objects.get(id=profiles.id_pais_id)
+        except Profile.DoesNotExist:
             profiles.id_region_id = None
             profiles.id_comuna_id = None
             profiles.id_pais_id = None
@@ -315,7 +465,9 @@ def mostrar_perfil(request, username):
     
 @login_required
 def editar_perfil(request, id):
-    perfil = profile.objects.get(id=id)
+    usuario = User.objects.get(id=request.user.id)
+    profiles = Profile.objects.get(usuario=usuario.id)
+    perfil = Profile.objects.get(id=id)
     if request.method == 'POST':
         form = PerfilForm(request.POST, request.FILES, instance=perfil)
         if form.is_valid():
@@ -323,4 +475,10 @@ def editar_perfil(request, id):
             return redirect('dashboardcms')
     else:
         form = PerfilForm(instance=perfil)
-    return render(request, 'cms/pages/editar_perfil.html', {'form': form, 'perfil': perfil})
+    context = {
+        'form': form,
+        'perfil': perfil,
+        'profiles': profiles,
+        'usuario': usuario,
+    }
+    return render(request, 'cms/pages/editar_perfil.html', context)

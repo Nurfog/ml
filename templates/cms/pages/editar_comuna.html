@@ -1,0 +1,21 @@
+{% extends 'cms/master.html' %}
+{% block title %}Editar Comuna{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="col-6 mx-auto card p-3 shadow-lg">
+            <h1 class="text-primary text-center">Editar Comuna</h1>
+            <form method="post" action="{% url 'editar_comuna' id=comuna.id %}" id="editacomunaForm">
+                {% csrf_token %}
+                {{ formulario.as_p }}
+                <button type="submit" class="btn btn-primary">Guardar<i class="fa fa-fw fa-save"></i></button>
+            </form>
+
+            <script>
+                document.getElementById('id').addEventListener('change', function() {
+                    document.getElementById('editacomunaForm').submit();
+                });
+            </script>
+        </div>
+    </div>
+    
+{% endblock %}

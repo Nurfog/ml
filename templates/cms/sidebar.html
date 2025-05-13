@@ -47,12 +47,12 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="#" class="nav-link ms-2">
-                            
-                                <i class="nav-icon bi bi-flag-fill"></i>
-                                <p>Paises</p>
+                            <i class="nav-icon bi bi-flag-fill"></i>
+                            <p>Pais
                                 <i class="nav-arrow bi bi-chevron-right"></i>
-                            
+                            </p>
                         </a>
+                    
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'lista_paises' %}" class="nav-link ms-4">
@@ -68,15 +68,15 @@
                             </li>                            
                         </ul>
                     </li>
+            
                 </ul>
+            
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="#" class="nav-link ms-2">
-                            
-                                <i class="nav-icon bi bi-flag-fill"></i>
-                                <p>Regiones</p>
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            
+                            <i class="nav-icon bi bi-card-image"></i>
+                            <p>Regiones</p>
+                            <i class="nav-arrow bi bi-chevron-right"></i>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
@@ -92,9 +92,32 @@
                                 </a>
                             </li>                            
                         </ul>
-                    </li>                  
+                    </li>  
+                </ul>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link ms-2">
+                            <i class="nav-icon bi bi-r-square-fill"></i>
+                            <p>Comunas</p>
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'lista_comuna' %}" class="nav-link ms-4">
+                                    <i class="nav-icon bi bi-list"></i>
+                                    <p>Listar Comunas</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'crear_comuna' %}" class="nav-link ms-4">
+                                    <i class="nav-icon bi bi-plus-circle"></i>
+                                    <p>Agregar</p>
+                                </a>
+                            </li>                            
+                        </ul>
+                    </li>  
+                </ul>                
             </li>
-            
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>

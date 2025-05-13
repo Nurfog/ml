@@ -1,10 +1,11 @@
+from cProfile import label
 from django import forms
-from cms.models import pais, region, comuna, empresa, representante, colegio, departamento, profile
+from cms.models import *
 from django import forms
 
 class PaisForm(forms.ModelForm):
     class Meta:
-        model = pais
+        model = Pais
         fields = ['codigo', 'nombre', 'nacionalidad', 'moneda', 'codigo_telefono']
         widgets = {
             'codigo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: CL'}),
@@ -33,7 +34,7 @@ class PaisForm(forms.ModelForm):
 
 class RegionForm(forms.ModelForm):
     class Meta:
-        model =  region
+        model =  Region
         fields = ['pais','codigo', 'nombre']
         widgets = {
             'pais': forms.Select(attrs={'class': 'form-control'}),
@@ -50,26 +51,56 @@ class RegionForm(forms.ModelForm):
         
 
 class ComunaForm(forms.ModelForm):
+    region = forms.ModelChoiceField(
+        queryset=Region.objects.none().order_by('nombre'),
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecciona una región'}),
+        label='Región'
+    )
+    pais = forms.ModelChoiceField(
+        queryset=Pais.objects.all().order_by('nombre'),
+        widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecciona un país'}),
+        label='País'
+    )
+    codigo = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Código'}),
+        label='Código'
+    )
+    nombre = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Nombre'}),
+        label='Nombre'
+    )
+
     class Meta:
-        model =  comuna
-        fields = ['provincia','codigo', 'nombre']
-        widgets = {
-            'provincia': forms.Select(attrs={'class': 'form-control'}),
-            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-    def clean_codigo(self):
-        codigo = self.cleaned_data['codigo']
-        return codigo.upper()
-    
+        model = Comuna
+        fields = ['pais', 'region', 'codigo', 'nombre']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['region'].queryset = Region.objects.none().order_by('nombre')
+        if 'pais' in self.data and self.data['pais']:  # Asegúrate de que 'pais' tenga un valor
+            try:
+                pais_id = int(self.data['pais'])  # Convertimos el ID a entero
+                self.fields['region'].queryset = Region.objects.filter(pais_id=pais_id).order_by('nombre')
+            except (ValueError, TypeError):
+                pass  # Invalid pais_id, se mantiene el queryset vacío
+        elif self.instance.pk:
+            self.fields['region'].queryset = Region.objects.filter(pais=self.instance.pais).order_by('nombre')
+
     def clean_nombre(self):
         nombre = self.cleaned_data['nombre']
         return nombre.capitalize()
     
+    def clean_codigo(self):
+        codigo = self.cleaned_data['codigo']
+        return codigo.upper()
+
 
 class EmpresaForm(forms.ModelForm):
     class Meta:
-        model =  empresa
+        model =  Empresa
         fields = ['rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo']
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
@@ -106,7 +137,7 @@ class EmpresaForm(forms.ModelForm):
 
 class RepresentanteForm(forms.ModelForm):
     class Meta:
-        model =  representante
+        model =  Representante
         fields = ['empresa', 'rut', 'nombre', 'apellido', 'email', 'telefono', 'comunas', 'direccion']
         widgets = {
             'empresa': forms.Select(attrs={'class': 'form-control'}),
@@ -149,7 +180,7 @@ class RepresentanteForm(forms.ModelForm):
 
 class ColegioForm(forms.ModelForm):
     class Meta:
-        model =  colegio
+        model =  Colegio
         fields = ['razon_social', 'comuna', 'direccion', 'telefono', 'email']
         widgets = {
             'razon_social': forms.TextInput(attrs={'class': 'form-control'}),
@@ -176,7 +207,7 @@ class ColegioForm(forms.ModelForm):
         
 class PerfilForm(forms.ModelForm):
     class Meta:
-        model =  profile
+        model =  Profile
         fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'celular', 'foto',
                   'socialgit', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli']        
         widgets = {
