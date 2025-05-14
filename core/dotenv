@@ -1,1 +1,8 @@
-SECRET_KEY= "a4`ze+#>fLEsc|Rk6;#.M6eUcCpP*RL2F`b^37zcLN=l35>cR4"
+# This file is used to store environment variables for the application.
+Secret_key="L9j7d8?&5;PrCgvck-z6ES_{,w!~nD*sWBu<4xTRXGUZ>)Fa:M"
+#base de datos
+db='ml'
+User='root'
+Password='apoca11'
+Host='localhost'
+Puerto='3306'
