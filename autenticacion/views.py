@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 def login_page(request):
@@ -10,6 +11,7 @@ def login_page(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
+        print(settings.BASE_DIR)
         
         # Chequea que el usuario y la contraseña sean válidos
         if not User.objects.filter(username=username).exists():
