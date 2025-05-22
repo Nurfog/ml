@@ -79,8 +79,8 @@ class Comuna(models.Model):
 
 class Empresa(models.Model):
     id = models.AutoField(primary_key=True)
-    rut = models.CharField(max_length=150)
-    razonsocial = models.CharField(max_length=150)
+    dniempresa = models.CharField(max_length=150)
+    razonsocial = models.CharField(max_length=150)    
     comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE, related_name='comuna_empresa')
     direccion = models.CharField(max_length=150)
     telefono = models.CharField(max_length=150)
@@ -174,6 +174,7 @@ class Colegio(models.Model):
 
 class Departamento(models.Model):
     id = models.AutoField(primary_key=True)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='empresa_departamento')
     nombre = models.CharField(max_length=150)
     descripcion = models.TextField()
     estado = models.BooleanField(default=True)
@@ -219,10 +220,10 @@ class Profile(models.Model):
     socialyt = models.CharField(max_length=200, blank=True, null=True)
     socialli = models.CharField(max_length=200, blank=True, null=True)
     socialgit = models.CharField(max_length=200, blank=True, null=True)
-    estado = models.BooleanField(default=1)
+    estado = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user.username
+        return self.nombres    
 
     class Meta:
         verbose_name = 'Profile'

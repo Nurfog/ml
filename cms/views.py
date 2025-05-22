@@ -123,10 +123,10 @@ def lista_region(request):
     return render(request, 'cms/pages/lista_region.html', context)
 
 @login_required
-def editar_region(request, id):
+def editar_region(request, idreg):
     usuarios = User.objects.get(id=request.user.id)
     profiles = Profile.objects.get(usuario=usuarios.id)    
-    regiones = get_object_or_404(Region, id=id)
+    regiones = get_object_or_404(Region, id=idreg)
     if request.method == 'POST':
         form = RegionForm(request.POST, instance=regiones)
         if form.is_valid():

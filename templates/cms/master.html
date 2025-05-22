@@ -2,6 +2,11 @@
 <html lang="es-cl">  
 	<head>
 		{% load static %}
+		<!-- Favicon -->
+        <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+		<!-- CSRF Token -->
+		<meta name="csrf-token" content="{{ csrf_token }}">
+		<!-- Meta Tags -->		 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Master Language - {% block title %}{% endblock %}</title>		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -126,9 +131,7 @@
 						<!--begin::Notifications Dropdown Menu-->
 						<li class="nav-item dropdown">
 						<a class="nav-link" data-bs-toggle="dropdown" href="#">
-							<i class="bi bi-bell"></i>Buenos días,
-
-las jefaturas de las áreas de venta y secretarias, me solicitaron añ
+							<i class="bi bi-bell"></i>
 							<span class="navbar-badge badge text-bg-warning">16</span>
 						</a>
 						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">

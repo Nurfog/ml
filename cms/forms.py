@@ -47,7 +47,7 @@ class RegionForm(forms.ModelForm):
     
     def clean_nombre(self):
         nombre = self.cleaned_data['nombre']
-        return nombre.capitalize()
+        return nombre.title()
         
 
 class ComunaForm(forms.ModelForm):
@@ -101,9 +101,9 @@ class ComunaForm(forms.ModelForm):
 class EmpresaForm(forms.ModelForm):
     class Meta:
         model =  Empresa
-        fields = ['rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo']
+        fields = ['dniempresa', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo']
         widgets = {
-            'rut': forms.TextInput(attrs={'class': 'form-control'}),
+            'dniempresa': forms.TextInput(attrs={'class': 'form-control'}),
             'razonsocial': forms.TextInput(attrs={'class': 'form-control'}),
             'comuna': forms.Select(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),

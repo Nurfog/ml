@@ -4,9 +4,9 @@ import cms.models as models
 
 
 class EmpresaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
-    search_fields = ('id', 'rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
-    list_filter = ('id', 'rut', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
+    list_display = ('id', 'dniempresa', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
+    search_fields = ('id', 'dniempresa', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
+    list_filter = ('id', 'dniempresa', 'razonsocial', 'comuna', 'direccion', 'telefono', 'email', 'logo', 'estado')
     ordering = ['id']
     list_per_page = 10
     list_editable = ('estado',)
