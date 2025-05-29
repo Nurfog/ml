@@ -17,7 +17,7 @@ def login_page(request):
         if not User.objects.filter(username=username).exists():
             # Muestra un mensaje de error si el usuario no existe
             messages.error(request, 'Usuario no encontrado')
-            return redirect('/login/')
+            return redirect('cuentas')
         
         # Autenticar al usuario con el nombre de usuario y contraseña proporcionados
         user = authenticate(username=username, password=password)
@@ -25,7 +25,7 @@ def login_page(request):
         if user is None:
             # Muestra un mensaje de error si la autenticación falla (usuario no encontrado o contraseña incorrecta)
             messages.error(request, "Contraseña Incorrecta")
-            return redirect('/login/')
+            return redirect('cuentas')
         else:
             # Inicializa la sesión y redirecciona a la página dashboard
             login(request, user)
@@ -64,7 +64,7 @@ def register_page(request):
         
         # Muestra un mensaje de información confirmando la creación del usuario
         messages.info(request, "Cuenta creada correctamente!")
-        return redirect('autenticacion//account/register/')
+        return redirect('cuentas')
     
     # renderiza la pagina de registro (GET request)
     return render(request, 'autenticacion/account/register.html')
