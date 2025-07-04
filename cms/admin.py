@@ -52,9 +52,9 @@ class regionesAdmin(admin.ModelAdmin):
 admin.site.register(models.Region, regionesAdmin)
 
 class comunasAdmin(admin.ModelAdmin):
-    list_display = ('id', 'pais', 'region', 'codigo', 'nombre', 'estado')
-    search_fields = ('id', 'pais', 'region', 'codigo', 'nombre', 'estado')
-    list_filter = ('id',  'pais', 'region', 'nombre', 'estado')
+    list_display = ('id', 'region', 'codigo', 'nombre', 'estado')
+    search_fields = ('id', 'region', 'codigo', 'nombre', 'estado')
+    list_filter = ('id', 'region', 'nombre', 'estado')
     ordering = ['id']
     list_per_page = 10
     list_editable = ('estado',)

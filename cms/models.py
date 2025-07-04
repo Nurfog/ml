@@ -53,7 +53,7 @@ class Region(models.Model):
 
 class Comuna(models.Model):    
     id = models.AutoField(primary_key=True)
-    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, related_name='pais_comuna')
+    #pais = models.ForeignKey(Pais, on_delete=models.CASCADE, related_name='pais_comuna')
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='region_comuna')
     codigo = models.CharField(max_length=150)
     nombre = models.CharField(max_length=150)
