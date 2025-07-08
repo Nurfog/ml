@@ -208,7 +208,7 @@ class ColegioForm(forms.ModelForm):
 class PerfilForm(forms.ModelForm):
     class Meta:
         model =  Profile
-        fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'celular', 'foto',
+        fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'celular', 'email', 'foto',
                   'socialgit', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli']        
         widgets = {
             'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Escribe algo sobre ti...'}),
@@ -223,6 +223,7 @@ class PerfilForm(forms.ModelForm):
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56212345678'}),
             'celular': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56912345678'}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'mail@empresa.com'}),
             'foto': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'placeholder': 'Selecciona una foto de perfil'}),
             'socialgit': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'URL de tu perfil de GitHub'}),
             'socialx': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'URL de tu perfil de X'}),
