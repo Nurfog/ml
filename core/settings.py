@@ -134,9 +134,9 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_FILES_DIRS = [
                         os.path.join(BASE_DIR, 'static'),
-                        os.path.join(BASE_DIR, 'web', 'static'),
-                        os.path.join(BASE_DIR, 'autenticacion', 'static'),
-                        os.path.join(BASE_DIR, 'cms', 'static'),
+                        #os.path.join(BASE_DIR, 'templates', 'web', 'static'),
+                        #os.path.join(BASE_DIR, 'autenticacion', 'static'),
+                        #os.path.join(BASE_DIR, 'cms', 'static'),
                     ]
 
 MEDIA_URL = 'media/'
