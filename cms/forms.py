@@ -208,7 +208,7 @@ class ColegioForm(forms.ModelForm):
 
 class PerfilForm(forms.ModelForm):
     class Meta:
-        model =  
+        model = Profile
         fields = ['about', 'trabajo', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'id_pais', 'id_region', 'id_comuna', 'direccion', 'telefono', 'celular', 'foto',
                   'socialgit', 'socialx', 'socialfb', 'socialig', 'socialyt', 'socialli']        
         widgets = {
