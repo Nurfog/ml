@@ -38,7 +38,7 @@
 							<i class="bi bi-list"></i>
 						</a>
 						</li>
-						<li class="nav-item d-none d-md-block"><a href="{% url 'dashboardcms' %}" class="nav-link">Home</a></li>
+						<li class="nav-item d-none d-md-block"><a href="{% url 'cms:dashboard' %}" class="nav-link">Home</a></li>
 						<li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
 					</ul>
 					<!--end::Start Navbar Links-->
@@ -186,7 +186,7 @@
 							<!--end::Menu Body-->
 							<!--begin::Menu Footer-->
 							<li class="user-footer">
-							<a href="{% url 'perfil' username=request.user.username %}" class="btn btn-default btn-flat">Perfil</a>
+							<a href="{% url 'cms:perfil' username=request.user.username %}" class="btn btn-default btn-flat">Perfil</a>
 							<a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
 							</li>
 							<!--end::Menu Footer-->
@@ -474,4 +474,6 @@
 		<!--end::Script-->
 	</body>
 	<!--end::Body-->
+</html>
+end::Body-->
 </html>

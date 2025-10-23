@@ -19,22 +19,25 @@ import os
 env = environ.Env()
 environ.Env.read_env()
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('Secret_key')
+SECRET_KEY = env('Secret_Key')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ["192.168.0.254", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,10 +49,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web.apps.WebConfig',
+    # Mis Apps
+    'web',
+    'accounts',
+    'cms',
+    # 3rd Party Apps
     'django.contrib.sites',
-    'autenticacion.apps.AutenticacionConfig',
-    'cms.apps.CmsConfig',]
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +69,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Middleware de Allauth
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -66,9 +78,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-                    os.path.join(BASE_DIR, 'templates'),                    
-                ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,15 +93,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-#BD local
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('db'),
-        'USER': env('User'),
-        'PASSWORD': env('Password'),
-        'HOST': env('Host'),
-        'PORT': env('Puerto'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -118,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'es-cl'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'America/Santiago'
 
@@ -131,24 +143,47 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_FILES_DIRS = [
-                        os.path.join(BASE_DIR, 'static'),
-                        #os.path.join(BASE_DIR, 'templates', 'web', 'static'),
-                        #os.path.join(BASE_DIR, 'autenticacion', 'static'),
-                        #os.path.join(BASE_DIR, 'cms', 'static'),
-                    ]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = 'media/'
+# Media files
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# sitio por defecto
+# --- Configuración de Django Allauth ---
+
+AUTHENTICATION_BACKENDS = [
+    # Necesario para loguearse en el admin con usuario y contraseña
+    'django.contrib.auth.backends.ModelBackend',
+    # Backend de autenticación de allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 SITE_ID = 1
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+
+LOGIN_REDIRECT_URL = '/cms/' # Redirige al lms dashboard después del login
+
+# Configuración adicional de allauth
+ACCOUNT_EMAIL_VERIFICATION = 'optional' # Puede ser 'mandatory' en producción
+ACCOUNT_LOGOUT_ON_GET = True         # Facilita el logout con un simple click
+ACCOUNT_LOGIN_METHODS = {'email'}      # El login se hará usando el email
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*'] # Campos para el formulario de registro
+
+# Configuración del proveedor de Google
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+# --- Fin configuración de Django Allauth ---
